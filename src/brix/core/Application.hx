@@ -322,7 +322,7 @@ class Application
 			var updateRootRef:Bool = (htmlRootElement == Browser.document.documentElement);
 
 			//htmlRootElement.innerHTML = documentString;
-			brix.util.DomTools.innerHTML(htmlRootElement, documentString);
+			brix.util.DomTools.innerHTML(cast htmlRootElement, documentString);
 			//htmlRootElement.innerHTML = htmlString;
 			//htmlRootElement.outerHTML = htmlString;
 

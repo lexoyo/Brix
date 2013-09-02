@@ -10,8 +10,10 @@ package brix.component.automatisation;
 
 import haxe.Timer;
 
-
+import js.Browser;
 import js.html.HtmlElement;
+import js.html.Event;
+import js.html.CustomEvent;
 
 import brix.util.DomTools;
 import brix.component.ui.DisplayObject;
@@ -117,7 +119,7 @@ class Sequencer extends DisplayObject
 	 * use the event SET_TIMECODE_REQUEST event to set the current time code
 	 * by default the current timecode is the system time
 	 */
-	public var currentTimecode(getCurrentTimecode, null):Timecode;
+	public var currentTimecode(get, null):Timecode;
 	/**
 	 * offset used to compute the timecode from the system current time
 	 * use the event SET_TIMECODE_REQUEST event to set the current time code 
@@ -152,7 +154,7 @@ class Sequencer extends DisplayObject
 	/**
 	 * compute the current time code from the current system time and the offset
 	 */
-	private function getCurrentTimecode():Timecode
+	private function get_currentTimecode():Timecode
 	{
 		return Date.now().getTime() + timecodeOffset;
 	}
@@ -306,7 +308,7 @@ class Sequencer extends DisplayObject
 			action.state = started;
 
 			// dispatch the event to other components on the same node
-			var event : CustomEvent = cast Lib.document.createEvent("CustomEvent");
+			var event : CustomEvent = cast Browser.document.createEvent("CustomEvent");
 			event.initCustomEvent(EVENT_ACTION_STARTED, true, true, action);
 			rootElement.dispatchEvent(event);
 
@@ -341,7 +343,7 @@ class Sequencer extends DisplayObject
 			action.state = ended;
 
 			// dispatch the event to other components on the same node
-			var event : CustomEvent = cast Lib.document.createEvent("CustomEvent");
+			var event : CustomEvent = cast Browser.document.createEvent("CustomEvent");
 			event.initCustomEvent(EVENT_ACTION_ENDED, true, true, action);
 			rootElement.dispatchEvent(event);
 
@@ -384,7 +386,7 @@ class Sequencer extends DisplayObject
 			}
 
 			// dispatch the event to other components on the same node
-			var event : CustomEvent = cast Lib.document.createEvent("CustomEvent");
+			var event : CustomEvent = cast Browser.document.createEvent("CustomEvent");
 			event.initCustomEvent(EVENT_ACTION_CANCELED, true, true, action);
 			rootElement.dispatchEvent(event);
 

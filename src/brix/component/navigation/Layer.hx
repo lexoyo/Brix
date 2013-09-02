@@ -133,11 +133,11 @@ class Layer extends DisplayObject
 	/**
 	 * retrieve the layer in which this component is defined
 	 */
-	static public function getLayer(element:HtmlDom, brixId:String) : Null<Layer>
+	static public function getLayer(element:HtmlElement, brixId:String) : Null<Layer>
 	{
 		while(element!=null && !DomTools.hasClass(element, "Layer"))
 		{
-			element = element.parentNode;
+			element = cast element.parentNode;
 		}
 		if (element!=null)
 		{

@@ -9,7 +9,11 @@
 package brix.component.list;
 
 
+import js.Browser;
 import js.html.HtmlElement;
+import js.html.Event;
+import js.html.CustomEvent;
+
 import haxe.Http;
 import haxe.Json;
 import haxe.Timer;
@@ -56,7 +60,7 @@ class PageQueryConnector extends DisplayObject
 		}
 		trace("onLayerShow "+data);
 		// refresh list data
-		DomTools.doLater(callback(onData, data));
+		DomTools.doLater(onData.bind(data));
 	}
 	/**
 	 * callback for the http request
@@ -64,7 +68,7 @@ class PageQueryConnector extends DisplayObject
 	public function onData(data:Dynamic)
 	{
 		// dispatch a custom event
-		var event : CustomEvent = cast Lib.document.createEvent("CustomEvent");
+		var event : CustomEvent = cast Browser.document.createEvent("CustomEvent");
 		event.initCustomEvent(ConnectorBase.ON_DATA_RECEIVED, false, false, data);
 		rootElement.dispatchEvent(event);
 	}

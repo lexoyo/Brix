@@ -10,6 +10,7 @@ package brix.component.navigation.link;
 
 
 import js.html.HtmlElement;
+import js.html.Event;
 
 /**
  * Close the nodes which have a targetted class name, when the user clicks on the component's node

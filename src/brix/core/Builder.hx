@@ -19,6 +19,7 @@ import cocktail.html.Document;
 import cocktail.html.HtmlElement;
 import haxe.ds.StringMap;
 import cocktail.Browser;
+import cocktail.api.CocktailView;
 
 using StringTools;
 using Lambda;
