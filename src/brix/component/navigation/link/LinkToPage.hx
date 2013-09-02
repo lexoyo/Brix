@@ -15,7 +15,6 @@ import js.html.Event;
 /**
  * Let you specify a page to display when the user clicks on the component's node
  */
-@tagNameFilter("a")
 class LinkToPage extends LinkBase
 {
 	/**

@@ -251,7 +251,7 @@ class ConnectorBase extends DisplayObject
 	public function onError(message:String)
 	{
 		trace("onError " + message);
-		dispatch(ConnectorBase.ON_DATA_ERROR, null, rootElement, false, both);
+		dispatch(ConnectorBase.ON_DATA_ERROR, null, rootElement, false, up);
 	}
 	/**
 	 * dispatch an event with the new data
@@ -259,7 +259,7 @@ class ConnectorBase extends DisplayObject
 	public function onDataReceived(objectData:Dynamic)
 	{
 		// dispatch a custom event
-		dispatch(ConnectorBase.ON_DATA_RECEIVED, objectData, rootElement, false, both);
+		dispatch(ConnectorBase.ON_DATA_RECEIVED, objectData, rootElement, false, none);
 	}
 	
 	/**
@@ -268,7 +268,7 @@ class ConnectorBase extends DisplayObject
 	 */
 	public function onNoMoreData(objectData:Dynamic)
 	{
-		dispatch(ConnectorBase.ON_NO_MORE_DATA, objectData, rootElement, false, both);
+		dispatch(ConnectorBase.ON_NO_MORE_DATA, objectData, rootElement, false, none);
 	}
 	
 	/**

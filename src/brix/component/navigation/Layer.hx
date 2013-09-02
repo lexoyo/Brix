@@ -130,6 +130,22 @@ class Layer extends DisplayObject
 		else
 			return body.getElementsByClassName("Layer");
 	}
+	/**
+	 * retrieve the layer in which this component is defined
+	 */
+	static public function getLayer(element:HtmlDom, brixId:String) : Null<Layer>
+	{
+		while(element!=null && !DomTools.hasClass(element, "Layer"))
+		{
+			element = element.parentNode;
+		}
+		if (element!=null)
+		{
+			return Application.get(brixId).getAssociatedComponents(element, Layer).first();
+		}
+		trace("WARNING: could not find layer "+element);
+		return null;
+	}
 	//////////////////////////////////////////////////////
 	// Transitions
 	//////////////////////////////////////////////////////
@@ -318,6 +334,7 @@ class Layer extends DisplayObject
 		{
 			var element = childrenArray.shift();
 			rootElement.appendChild(element);
+			getBrixApplication().initNode(element);
 		}
 
 		// notify the transition observer
@@ -517,14 +534,15 @@ class Layer extends DisplayObject
 
 
 		// remove children 
-/**/
+/*
 		while (rootElement.childNodes.length > 0)
 		{
 			var element:HtmlElement = cast rootElement.childNodes[0];
+			getBrixApplication().cleanNode(element);
 			rootElement.removeChild(element);
 			childrenArray.push(element);
 		}
-/**/
+*/
 		// set or reset style.display
 		rootElement.style.display = "none";
 	}

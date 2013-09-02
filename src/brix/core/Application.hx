@@ -239,7 +239,7 @@ class Application
 			appendTo.appendChild(body);
 		
 		// update the application body
-		body = appendTo;
+		//body = appendTo;
 	}
 	/**
 	 * Initialize the application on a given node.

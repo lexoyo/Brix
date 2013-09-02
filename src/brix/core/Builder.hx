@@ -8,7 +8,6 @@
  */
 package brix.core;
 
-import cocktail.api.CocktailView;
 import haxe.macro.Compiler;
 import haxe.macro.Expr;
 import haxe.macro.Type;
@@ -135,6 +134,7 @@ class Builder
 			//instantiate a cocktail instance and fill it with an empty html doc
 			var cocktailView : CocktailView = new CocktailView();
 			cocktailView.loadHTML("<!DOCTYPE html><html><head></head><body></body></html>");
+
 			//set the cocktail instance as static (accessible through Browser)
 			Browser.init(cast cocktailView.document, cocktailView.window);
 			

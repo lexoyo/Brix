@@ -354,6 +354,9 @@ class DomTools
 	 */
 	static public function addClass(element:HtmlElement, className:String):Void
 	{
+		// for performance, do not touch the DOM unless needed
+		if (hasClass(element, className)) return;
+		
 		if (element.className == null) element.className = "";
 
 		Lambda.iter( className.split(" "), function(cn:String) { if (!Lambda.has(element.className.split(" "), cn)) { if (element.className != "") { element.className += " "; } element.className += cn; } } );
@@ -366,7 +369,7 @@ class DomTools
 	 */
 	static public function removeClass(element:HtmlElement, className:String):Void
 	{
-		if (element.className == null || element.className.trim() == "") return;
+		if (element.className == null || element.className.trim() == "" || !hasClass(element, className)) return;
 
 		var classNamesToKeep:Array<String> = new Array();
 		var cns = className.split(" ");

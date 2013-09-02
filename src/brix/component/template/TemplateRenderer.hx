@@ -61,7 +61,7 @@ class TemplateRenderer extends DisplayObject
 		mapListener(rootElement, ConnectorBase.ON_DATA_RECEIVED, onDataReceived, false);
 
 		// listen to the layer events
-/**/		var tmpHtmlDom = rootElement;
+/*		var tmpHtmlDom = rootElement;
 		while(tmpHtmlDom!=null && !DomTools.hasClass(tmpHtmlDom, "Layer"))
 		{
 			tmpHtmlDom = cast tmpHtmlDom.parentNode;
@@ -73,12 +73,17 @@ class TemplateRenderer extends DisplayObject
 			mapListener(tmpHtmlDom, Layer.EVENT_TYPE_SHOW_STOP, onLayerShow, false);
 			mapListener(tmpHtmlDom, Layer.EVENT_TYPE_HIDE_STOP, onLayerHide, false);
 		}
-/**/	}
+/**/
+		// listen to the Layer class event, in order to loadData when the page opens
+		mapListener(rootElement, Layer.EVENT_TYPE_SHOW_AGAIN, onLayerShow, false);
+		mapListener(rootElement, Layer.EVENT_TYPE_SHOW_STOP, onLayerShow, false);
+		mapListener(rootElement, Layer.EVENT_TYPE_HIDE_STOP, onLayerHide, false);
+	}
 	/**
 	 * callback for the event
 	 */
 	public function onDataReceived(e:Event)
-	{trace("onDataReceived");
+	{//trace("onDataReceived");
 		var newData:Dynamic = cast(e).detail;
 		data = newData;
 		redraw();
@@ -148,7 +153,6 @@ class TemplateRenderer extends DisplayObject
 
 			if (lastRenderedHtml != res)
 			{
-				//trace("render IS different "+rootElement.className+" - "+lastRenderedHtml.length+"--"+res.length+"--"+rootElement.innerHTML.length);
 				for (nodeIdx in 0...rootElement.childNodes.length)
 				{
 					var node = rootElement.childNodes[nodeIdx];
@@ -159,7 +163,6 @@ class TemplateRenderer extends DisplayObject
 				}
 				lastRenderedHtml = res;
 				rootElement.innerHTML = res;
-				//trace("render => "+rootElement.className+" - "+lastRenderedHtml.length+"--"+res.length+"--"+rootElement.innerHTML.length);
 				for (nodeIdx in 0...rootElement.childNodes.length)
 				{
 					var node = rootElement.childNodes[nodeIdx];
@@ -172,12 +175,13 @@ class TemplateRenderer extends DisplayObject
 			else
 			{
 
-				trace("render not different "+rootElement.className+" - "+lastRenderedHtml.length+"--"+res.length+"--"+rootElement.innerHTML.length);
+				//trace("render not different "+rootElement.className);
+				// throws an error "XML parser failure: element is malformed." : trace("render not different "+rootElement.innerHTML);
 			}
 		}
 		catch(e:Dynamic)
 		{
-			trace("Error: could not render template "+htmlTemplate+". Error message: "+e);
+			trace("Error: could not render template "+rootElement.className+". Error message: "+e);
 		}
 	}
 	/**

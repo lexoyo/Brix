@@ -61,6 +61,8 @@ class StateManager extends DisplayObject
 		// listen to other components events
 		mapListener(Browser.document.body, Page.EVENT_TYPE_OPEN_STOP, cast(onPageOpened), true);
 		mapListener(Browser.document.body, ContextManager.EVENT_CONTEXT_CHANGE, cast(onContextChanged), true);
+
+		dispatch(ContextManager.EVENT_REQUEST_CONTEXTS);
 	}
 	/** 
 	 * callback for page events
