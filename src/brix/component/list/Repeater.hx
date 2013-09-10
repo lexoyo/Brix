@@ -18,7 +18,7 @@ import brix.component.interaction.Draggable;
 import brix.util.DomTools;
 
 import brix.component.ui.DisplayObject;
-import brix.component.template.TemplateMacros;
+//import brix.component.template_.TemplateMacros;
 import brix.component.navigation.Layer;
 
 #if continuation
@@ -115,7 +115,8 @@ class Repeater<ElementClass> extends DisplayObject
 	 */ 
 	private function resolveItem(element: ElementClass, t:Template)
 	{
-		return t.execute(element, new TemplateMacros());
+		//return t.execute(element, new TemplateMacros());
+		return t.execute(element);
 	}
 
 	/**

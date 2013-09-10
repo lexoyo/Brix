@@ -10,8 +10,11 @@ package brix.util;
 
 import haxe.macro.Type;
 
+#if macro
 import cocktail.Dom;
-
+#else
+import js.Dom;
+#end
 /**
  * Helper tools for macros.
  * 

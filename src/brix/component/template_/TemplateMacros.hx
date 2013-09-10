@@ -6,7 +6,7 @@
  * Brix is available under the MIT license
  * http://www.silexlabs.org/labs/brix-licensing/
  */
-package brix.component.template;
+package brix.component.template_;
 
 import js.Lib;
 import js.Dom;
@@ -19,9 +19,18 @@ import js.Dom;
  * @example 	template.execute(item, TemplateMacros);
  * @example		in the macro you can write $$makeDateReadable(::item.date::)
  */
-class TemplateMacros implements Dynamic
+class TemplateMacros // not in CPP : extends Dynamic
 {
 	public function new(){}
+/*	public function makeDurationReadable(r:String->Dynamic, a:Float, b:Int, 
+		c:String, d:String, e:String, f:String, 
+		g:String, h:String, i:String, 
+		j:String, k:String, l:String, m:String, 
+		n:String, o:String, p:String, 
+		q:String, r:String, s:String, t:String):String
+	{
+		return "";
+	}
 	/**
 	 * make dates readable
 	 * @param 	date can be a Date or String or timestamp
@@ -31,7 +40,7 @@ class TemplateMacros implements Dynamic
 		hoursText:String="hour", minutesText:String="minute", secondsText:String="second", 
 		yearsTextPlural:String="years", monthsTextPlural:String="months", weeksTextPlural:String="weeks", daysTextPlural:String="days", 
 		hoursTextPlural:String="hours", minutesTextPlural:String="minutes", secondsTextPlural:String="seconds", 
-		?unit="ms", ?prefix:String="", ?suffix:String="", ?defaultValue:String="Very old."):String
+		?unit:String="ms", ?prefix:String="", ?suffix:String="", ?defaultValue:String="Very old."):String
 	{//trace("makeDurationReadable "+duration);
 		if (StringTools.trim(unit) == "s")
 		{
@@ -167,7 +176,7 @@ class TemplateMacros implements Dynamic
 		hoursText:String="hour", minutesText:String="minute", secondsText:String="second", 
 		yearsTextPlural:String="years", monthsTextPlural:String="months", weeksTextPlural:String="weeks", daysTextPlural:String="days", 
 		hoursTextPlural:String="hours", minutesTextPlural:String="minutes", secondsTextPlural:String="seconds", 
-		?unit="ms", ?prefix:String="", ?suffix:String=""):String
+		?unit:String="ms", ?prefix:String="", ?suffix:String=""):String
 	{//trace("durationFromTimestamp "+(Date.now().getTime())+"-"+(timestamp*1000)+" - "+(Date.now().getTime()-(timestamp*1000)));
 		var initialTimestamp = timestamp;
 		if (StringTools.trim(unit) == "s")
@@ -270,4 +279,42 @@ class TemplateMacros implements Dynamic
 		trace(obj);
 		return "";
 	}
+	/**
+	 * remove br tags and wrap text in p tags instead 
+	 */
+	public function replaceBrByP(resolve:String->Dynamic, str:String):String
+	{
+		str = StringTools.replace(str, "<br>", "<br />");
+		var splittedText = str.split("<br />");
+		var res = "";
+		for (split in splittedText)
+		{
+			split = StringTools.replace(split, "<br />", "");
+			split = "<p>" + split + "</p>";
+			res += split;
+		}
+		
+		return res;
+	}
+	/**
+	 * exposed to the templates to make recursive templates
+	 * @example $$loop(::children::)
+	 */
+	public function loop (context : String -> Dynamic, dynamicData : Dynamic){
+		//trace("loop "+dynamicData+" - "+context);
+		if (dynamicData != null)
+			return resolve(dynamicData);
+		else return "";
+	}
+	/**
+	 * expose additional macros to the templates
+	 * resolve a template with the given data
+	 */
+	public function resolve(dynamicData:Dynamic, ?htmlTemplate:Null<String>=null)
+	{//trace("resolve "+dynamicData);
+		if (htmlTemplate!=null) this.htmlTemplate = htmlTemplate;
+		var t = new haxe.Template(this.htmlTemplate);
+		return t.execute(dynamicData, this);
+	}
+	public var htmlTemplate:String;
 }

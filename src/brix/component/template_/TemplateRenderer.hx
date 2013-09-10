@@ -6,7 +6,7 @@
  * Brix is available under the MIT license
  * http://www.silexlabs.org/labs/brix-licensing/
  */
-package brix.component.template;
+package brix.component.template_;
 
 import js.Lib;
 import js.Dom;
@@ -16,7 +16,7 @@ import brix.util.DomTools;
 
 import brix.component.navigation.Layer;
 import brix.component.ui.DisplayObject;
-import brix.component.template.TemplateMacros;
+//import brix.component.template_.TemplateMacros;
 import brix.component.list.ConnectorBase;
 
 /**
@@ -121,18 +121,18 @@ class TemplateRenderer extends DisplayObject
 	/**
 	 * expose additional macros to the templates
 	 * resolve a template with the given data
-	 */
+	 *
 	public function resolve(dynamicData:Dynamic)
 	{//trace("resolve "+dynamicData);
 		var t = new haxe.Template(htmlTemplate);
 		var templateMacros = new TemplateMacros();
-		templateMacros.loop = loop;
+		// not in CPP : templateMacros.loop = loop;
 		return t.execute(dynamicData, templateMacros);
 	}
 	/**
 	 * exposed to the templates to make recursive templates
 	 * @example $$loop(::children::)
-	 */
+	 *
 	function loop (context : String -> Dynamic, dynamicData : Dynamic){
 		//trace("loop "+dynamicData+" - "+context);
 		if (dynamicData != null)
@@ -147,7 +147,10 @@ class TemplateRenderer extends DisplayObject
 	 	// generate the html for the element
 		try
 		{
-			var res = resolve(data);
+			//var templateMacros = new TemplateMacros();
+			//var res = templateMacros.resolve(data, htmlTemplate);
+			var t = new haxe.Template(htmlTemplate);
+			var res = t.execute(data);
 
 			if (lastRenderedHtml != res)
 			{
